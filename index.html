@@ -8,12 +8,25 @@
 </head>
 <body>
     <nav>
+        <div class='logo'>
+            Encrypt
+        </div>
         <ul class='nav-bar'>
             <li class='nav-item'>Home</li>
             <li class='nav-item'>User</li>
             <li class='nav-item'>Chats</li>
             <li class='nav-item'>Friends</li>
         </ul>
+        <div class='user-details'>
+            <!-- be able to register, sign in, manage account (edit details, or logout) -->
+            <div class='user-dropdown'>
+                <p>User Name:</p>
+                <input placeholder='user-name' name='user-name' id='user' class='login-input'/>
+                <p>Password: </p>
+                <input placeholder='password' name='password' id='pword' class='login-input'/>
+                <button>Login</button>
+            </div>
+        </div>
     </nav>
     <main>
         <div class='left-pane'>
@@ -37,6 +50,6 @@
             </section>
         </div>
     </main>
-<script src='.scripts/script.js'></script>
+<script src='./scripts/script.js'></script>
 </body>
 </html>
