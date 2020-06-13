@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     loadUsers()
     loadEncryption()
     loadMessageBoard()
+    
 
 })
 
@@ -194,6 +195,7 @@ function renderUser(user) {
     const userMenu = document.querySelector('ul.users-list')
 
     const userEl = document.createElement('li')
+    
 
     userEl.style.listStyle = 'none'
     userEl.innerText = `${user.username}`
