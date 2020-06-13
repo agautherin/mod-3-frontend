@@ -84,13 +84,14 @@ function renderLoginForm(dropDown) {
     
     // add attibutes
     uninput.className = 'login-input';
-    uninput.name = 'user-name';
+    uninput.name = 'username';
     uninput.id = 'user';
-    uninput.placeholder = 'user-name';
+    uninput.placeholder = 'User Name';
     upinput.className = 'login-input';
-    upinput.name = 'user-name';
+    upinput.name = 'password';
     upinput.id = 'user';
-    upinput.placeholder = 'password';
+    upinput.placeholder = 'Password';
+    upinput.type = 'password';
     
     uname.innerText = `User Name: `;
     upword.innerText = `Password: `;
@@ -101,7 +102,33 @@ function renderLoginForm(dropDown) {
     loginForm.append(uname, uninput, upword, upinput, button)
     dropDown.appendChild(loginForm)
 
+    loginForm.addEventListener('submit', handleLoginSubmit)
+
   
+}
+
+function handleLoginSubmit(e) {
+    e.preventDefault()
+    const uName = e.target.username.value;
+    const pWord = e.target.password.value;
+    e.target.reset();
+    
+    fetch(`${url}/users/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({'user': {
+            username: uName,
+            password: pWord
+        }})
+    })
+    .then(res => res.json())
+    .then(data => {
+        localStorage.setItem('token', data.token )
+    })
+   
 }
 
 function renderRegisterForm(dropDown) { 
@@ -174,6 +201,7 @@ function handleRegisterSubmit(e){
     })
     .then(res => res.json())
     .then(console.log)
+    e.target.reset();
 }
 
 function loadFriends() {
