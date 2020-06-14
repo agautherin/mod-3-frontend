@@ -210,7 +210,14 @@ function loadFriends() {
 
 function loadUsers() {
     console.log('hello user')
-    fetch(`${url}/users`)
+    fetch(`${url}/users`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
     .then(res => res.json() )
     .then( userList => {
         userList.forEach(user=>{
