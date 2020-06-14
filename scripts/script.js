@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
     userActions()
 
     // content rendering
-    loadFriends()
-    loadUsers()
-    loadEncryption()
-    loadMessageBoard()
+    // loadFriends()
+    // loadUsers()
+    // loadEncryption()
+    // loadMessageBoard()
     
 
 })
@@ -127,6 +127,10 @@ function handleLoginSubmit(e) {
     .then(res => res.json())
     .then(data => {
         localStorage.setItem('token', data.token )
+        loadFriends()
+        loadUsers()
+        loadEncryption()
+        loadMessageBoard()
     })
    
 }
