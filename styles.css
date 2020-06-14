@@ -73,17 +73,17 @@ div.right-pane {
     width: 78vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 section.encryption-menu {
-    height: 38vh;
+    height: 39vh;
     border: solid 1px rgb(80, 80, 80);
     border-radius: 5px;
 }
 
 section.messaging-window {
-    height: 38vh;
+    height: 39vh;
     border: solid 1px rgb(80, 80, 80);
     border-radius: 5px;
 }
