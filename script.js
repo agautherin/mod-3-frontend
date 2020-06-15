@@ -79,6 +79,8 @@ function renderLoginForm(dropDown) {
     //create nodes
 
     let loginForm = document.createElement('form')
+    loginForm.class = 'ua-form'
+
     let uname = document.createElement('label')
     let uninput = document.createElement('input')
     let upword = document.createElement('label')
@@ -135,7 +137,7 @@ function handleLoginSubmit(e) {
         loadFriends()
         loadUsers()
         loadEncryption()
-        loadMessageBoard()
+        newChatroom()
     })
    
 }
@@ -144,6 +146,8 @@ function renderRegisterForm(dropDown) {
     //create nodes
 
     let regForm = document.createElement('form')
+    regForm.class = 'ua-form'
+
     let uname = document.createElement('label')
     let uninput = document.createElement('input')
     let upword = document.createElement('label')
@@ -244,7 +248,7 @@ function loadChatrooms(){
     .then(res => res.json() )
     .then( chatroomList => {
         chatroomList.forEach((chatroom) => {
-            renderChatroom(chatroom)
+            renderChatroomOnList(chatroom)
         })
     })
 }
@@ -292,9 +296,10 @@ function loadEncryption() {
 
 }
 
-function loadMessageBoard() {
-
-}
+// function loadMessageBoard() {
+//     const messageWindow = document.querySelector('section.messaging-window')
+    
+// }
 
 function renderEncryptOptions(encryptArr) {
     console.log('connected encryption types')
