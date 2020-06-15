@@ -47,6 +47,7 @@ function renderDropDown(dropDown) {
     registerBtn.innerText = "Register"
     loginBtn.innerText = "Login"
 
+    toggleBar.className = 'toggle-bar'
     registerBtn.className = 'register-button'
     loginBtn.className = 'login-button'
     toggleBar.dataset.formView = '1'
@@ -81,15 +82,17 @@ function renderLoginForm(dropDown) {
     let upword = document.createElement('label')
     let upinput = document.createElement('input')
     let button = document.createElement('button')
+    let pBreak = document.createElement('br')
+    let pBreak2 = document.createElement('br')
     
     // add attibutes
     uninput.className = 'login-input';
     uninput.name = 'username';
-    uninput.id = 'user';
+    uninput.id = 'login-user';
     uninput.placeholder = 'User Name';
     upinput.className = 'login-input';
     upinput.name = 'password';
-    upinput.id = 'user';
+    upinput.id = 'login-password';
     upinput.placeholder = 'Password';
     upinput.type = 'password';
     
@@ -99,7 +102,7 @@ function renderLoginForm(dropDown) {
     button.type = 'submit';
     //append 
 
-    loginForm.append(uname, uninput, upword, upinput, button)
+    loginForm.append(uname, uninput, pBreak, upword, upinput, pBreak2, button)
     dropDown.appendChild(loginForm)
 
     loginForm.addEventListener('submit', handleLoginSubmit)
@@ -148,38 +151,53 @@ function renderRegisterForm(dropDown) {
     let firstNameInput = document.createElement('input')
     let lastNameLabel = document.createElement('label')
     let lastNameInput = document.createElement('input')
+    let pBreak = document.createElement('br')
+    let pBreak2 = document.createElement('br')
+    let pBreak3 = document.createElement('br')
+    let pBreak4 = document.createElement('br')
+    let pBreak5 = document.createElement('br')
 
     // add attibutes
     
-
+    //user input
     uninput.className = 'reg-input';
     uninput.name = 'username';
-    uninput.id = 'user';
+    uninput.id = 'register-user';
     uninput.placeholder = 'User Name';
+
+    //password input
     upinput.className = 'reg-input';
     upinput.name = 'password';
-    upinput.id = 'user';
+    upinput.id = 'register-password';
     upinput.placeholder = 'Password';
     upinput.type = 'password';
 
+    //first name input
     firstNameInput.className = 'reg-input';
     firstNameInput.name = 'firstname';
-    firstNameInput.id = 'firstname';
+    firstNameInput.id = 'register-firstname';
     firstNameInput.placeholder = 'First Name';
+
+    //last name input
     lastNameInput.className = 'reg-input';
     lastNameInput.name = 'lastname';
-    lastNameInput.id = 'lastname';
+    lastNameInput.id = 'register-lastname';
     lastNameInput.placeholder = 'Last Name';
 
-    firstNameLabel.innerText = 'First Name:'
-    lastNameLabel.innerText = 'Last Name:'
+    //modify nodes
+    firstNameLabel.innerText = 'First Name: '
+    lastNameLabel.innerText = 'Last Name: '
     uname.innerText = `User Name: `;
     upword.innerText = `Password: `;
     button.innerText = `Register`;
-    button.type = 'submit'
-    //append 
+    button.type = 'submit';
 
-    regForm.append(firstNameLabel, firstNameInput, lastNameLabel, lastNameInput, uname, uninput, upword, upinput, button)
+    //append 
+    regForm.append(firstNameLabel, firstNameInput, pBreak, 
+                    lastNameLabel, lastNameInput, pBreak2,
+                    uname, uninput, pBreak3,
+                    upword, upinput, pBreak4,
+                    button)
     dropDown.appendChild(regForm)
 
     regForm.addEventListener('submit', handleRegisterSubmit)
