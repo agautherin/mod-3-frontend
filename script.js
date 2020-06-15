@@ -1,6 +1,7 @@
 const PORT = `3000`
 const url = `http://localhost:${PORT}`
 
+// import variable from './modules/message.js'
 
 document.addEventListener("DOMContentLoaded", function() {
     
@@ -12,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // loadUsers()
     // loadEncryption()
     // loadMessageBoard()
+     
     
 
 })
@@ -230,8 +232,25 @@ function loadFriends() {
 
 }
 
+function loadChatrooms(){
+    fetch(`${url}/chatrooms`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    .then(res => res.json() )
+    .then( chatroomList => {
+        chatroomList.forEach((chatroom) => {
+            renderChatroom(chatroom)
+        })
+    })
+}
+
 function loadUsers() {
-    console.log('hello user')
+    
     fetch(`${url}/users`, {
         method: "GET",
         headers: {
