@@ -29,13 +29,15 @@ function getChatroomInfo(e) {
     .then( chatroomInstance => {
         renderChatroom(chatroomInstance)
     })
+    createConnection(id, e)
 }
 
 function renderChatroom(chatroom) {
     const messageWindow = document.querySelector('section.messaging-window')
 
     let h1 = document.createElement('h1')
-    h1.innerText = chatroom.id
+    h1.dataset.chatroomId = chatroom.id;
+    h1.innerText = chatroom.id;
 
     messageWindow.append(h1)
 
@@ -67,7 +69,7 @@ function renderChatroom(chatroom) {
     messageWindow.append(messageFormWrapper)
 
     encrypt.addEventListener("click", encryptMessage )
-    form.addEventListener("submit", handleSubmit )
+    form.addEventListener("submit", handleMessageSubmit )
 
     
 }
@@ -98,13 +100,28 @@ function encryptMessage() {
     console.log('encrypted!')
 }
 
-function handleSubmit(e) {
+function handleMessageSubmit(e) {
+    // debugger
     e.preventDefault()
-    console.log('submitted')
+    fetch(`${url}/messages`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': localStorage.getItem('token')
+        },
+        body: JSON.stringify({ message: {
+            message_text: e.target.message.value,
+            chatroom_id: e.target.parentElement.previousSibling.dataset.chatroomId
+            // encryption_id: 1
+        }})
+        // .then(res => res.json())
+        // .then(newMessage => renderMessage(newMessage))
+    })
     e.target.reset();
 }
 
-function createConnection(chatroom_id) {
+function createConnection(chatroom_id, e) {
     const socket = new WebSocket(webSocketUrl)
 
     socket.onopen = function(e) {
@@ -128,7 +145,7 @@ function createConnection(chatroom_id) {
     socket.onmessage = function(e) {
         const response = e.data;
         const message = JSON.parse(response)
-
+        
         if (message.type === 'ping') {
             return;
         }
