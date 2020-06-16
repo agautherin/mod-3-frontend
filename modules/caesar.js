@@ -2,15 +2,15 @@ function isUpperCase(str) {
     return str === str.toUpperCase();
 }
 
-let ceaserCipherEncode = (str, key) => {
+let ceaserCipherEncode = (str) => {
   let decipher = '';
   
   for(let i = 0; i < str.length; i++){
     
     if(isUpperCase(str[i])){
-      decipher += String.fromCharCode((str.charCodeAt(i) + key - 65) % 26 + 65);
+      decipher += String.fromCharCode((str.charCodeAt(i) + 4 - 65) % 26 + 65);
     }else{
-      decipher += String.fromCharCode((str.charCodeAt(i) + key - 97) % 26 + 97);
+      decipher += String.fromCharCode((str.charCodeAt(i) + 4 - 97) % 26 + 97);
     }
   }
   
@@ -18,6 +18,23 @@ let ceaserCipherEncode = (str, key) => {
   return decipher;
 
 }
+
+let ceaserCipherDecode = (str) => {
+    let decipher = '';
+    
+    for(let i = 0; i < str.length; i++){
+      
+      if(isUpperCase(str[i])){
+        decipher += String.fromCharCode((str.charCodeAt(i) - 4 - 65) % 26 + 65);
+      }else{
+        decipher += String.fromCharCode((str.charCodeAt(i) - 4 - 97) % 26 + 97);
+      }
+    }
+    
+    
+    return decipher;
+  
+  }
 
 
 

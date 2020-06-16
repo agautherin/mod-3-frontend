@@ -52,6 +52,7 @@ function renderChatroom(chatroom) {
 
     chatroom.messages.forEach( message => {
         messageContainer.appendChild(renderMessage(message))
+        
     })
 
     let messageFormWrapper = document.createElement('div')
@@ -102,7 +103,7 @@ function renderMessage(message){
 
 
 function decryptMessage(e) {
-    alert(caesarDecode(e.target.previousElementSibling.innerText))
+    alert(ceaserCipherDecode(e.target.previousElementSibling.innerText))
 }
 
 function encryptMessage() {
@@ -113,7 +114,7 @@ function handleMessageSubmit(e) {
     // debugger
     e.preventDefault()
     let obj = { 'message': {
-        message_text: caesarEncode(e.target.message.value),
+        message_text: ceaserCipherEncode(e.target.message.value),
         chatroom_id: e.target.parentElement.parentElement.firstChild.dataset.chatroomId
     }}
     fetch(`${url}/messages`, {
@@ -125,8 +126,8 @@ function handleMessageSubmit(e) {
         },
         body: JSON.stringify(obj)
     })
-    .then(res => res.json())
-    .then(newMessage => renderMessage(newMessage))
+    // .then(res => res.json())
+    // .then(newMessage => renderMessage(newMessage))
     e.target.reset()
 }
 
@@ -164,8 +165,27 @@ function createConnection(chatroom_id) {
         console.log("FROM RAILS: ", msg)
         // debugger
 
+        // if (msg.type === 'confirm_subscription' ) {
+        //     console.log('confirmed');
+
+        //     const msg = {
+        //         command: 'message',
+        //         identifier: JSON.stringify({
+        //             id: chatroom_id,
+        //             channel: "ChatroomChannel"
+        //         }),
+        //         data: JSON.stringify({
+        //             action: 'chat',
+        //             test: "testing"
+        //         })
+        //     };
+
+        //     socket.send(JSON.stringify(msg));
+        // }
+
         if (msg.message) {
-            renderMessage(msg.message)
+            let messageContainer = document.querySelector('div.message-container')
+            messageContainer.appendChild(renderMessage(msg.message))
         }
     };
 
