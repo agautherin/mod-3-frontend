@@ -45,11 +45,13 @@ function renderChatroom(chatroom) {
     h1.dataset.chatroomId = chatroom.id;
     h1.innerText = chatroom.id;
 
-    messageWindow.append(h1)
+    let messageContainer = document.createElement('div')
+    messageContainer.className = 'message-container'
 
+    messageWindow.append(h1, messageContainer)
 
     chatroom.messages.forEach( message => {
-        messageWindow.appendChild(renderMessage(message))
+        messageContainer.appendChild(renderMessage(message))
     })
 
     let messageFormWrapper = document.createElement('div')
@@ -81,6 +83,7 @@ function renderChatroom(chatroom) {
 }
 
 function renderMessage(message){
+    // debugger
     let messageRow = document.createElement('div')
     let messageBody = document.createElement('div')
     let messageBtn = document.createElement('button')
@@ -98,8 +101,8 @@ function renderMessage(message){
 }
 
 
-function decryptMessage() {
-    console.log('decrypted')
+function decryptMessage(e) {
+    alert(caesarDecode(e.target.previousElementSibling.innerText))
 }
 
 function encryptMessage() {
@@ -109,6 +112,10 @@ function encryptMessage() {
 function handleMessageSubmit(e) {
     // debugger
     e.preventDefault()
+    let obj = { 'message': {
+        message_text: caesarEncode(e.target.message.value),
+        chatroom_id: e.target.parentElement.parentElement.firstChild.dataset.chatroomId
+    }}
     fetch(`${url}/messages`, {
         method: 'POST',
         headers: {
@@ -116,10 +123,7 @@ function handleMessageSubmit(e) {
             'Accept': 'application/json',
             'Authorization': localStorage.getItem('token')
         },
-        body: JSON.stringify({'message': { 
-            message_text: e.target.message.value,
-            chatroom_id: e.target.parentElement.parentElement.firstChild.dataset.chatroomId
-        }})
+        body: JSON.stringify(obj)
     })
     .then(res => res.json())
     .then(newMessage => renderMessage(newMessage))
@@ -149,16 +153,19 @@ function createConnection(chatroom_id) {
 
     socket.onmessage = function(e) {
         const response = e.data;
-        const message = JSON.parse(response)
+        const msg = JSON.parse(response)
         
-        if (message.type === 'ping') {
+        
+        if (msg.type === 'ping') {
             return;
         }
 
-        console.log("FROM RAILS: ", message)
+        console.log(e)
+        console.log("FROM RAILS: ", msg)
+        // debugger
 
-        if (message.message) {
-            renderMessage(message.message)
+        if (msg.message) {
+            renderMessage(msg.message)
         }
     };
 

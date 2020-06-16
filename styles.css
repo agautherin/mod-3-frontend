@@ -156,3 +156,9 @@ section.messaging-window {
     border: solid 1px rgb(80, 80, 80);
     border-radius: 5px;
 }
+
+div.message-container {
+    height: 30vh;
+    width: 100%;
+    overflow-y: scroll;
+}
