@@ -137,6 +137,7 @@ function handleLoginSubmit(e) {
         loadFriends()
         loadUsers()
         loadEncryption()
+        loadChatrooms()
         newChatroom()
     })
    

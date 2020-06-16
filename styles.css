@@ -114,6 +114,27 @@ div.left-pane {
     width: 18vw;
     border: solid 1px rgb(80, 80, 80);
     border-radius: 5px;
+    overflow-y: scroll;
+}
+
+div.chatroom-list {
+    list-style: none;
+}
+
+div.chatroom-item {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+div.chatroom-item button.join-chatroom-button {
+    height: 1.5rem;
+    width: 35%;
+    background-color: rgb(152, 231, 210);
+    border: none;
+    border-radius: 10px;
 }
 
 div.right-pane {

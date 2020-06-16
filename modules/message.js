@@ -1,15 +1,20 @@
 const webSocketUrl = 'ws://localhost:3000/cable'
 
 function renderChatroomOnList(chatroom){
-    const list = document.querySelector('ul.chatroom-list')
-    
-    const chatItem = document.createElement('li')
-    chatItem.innerText = chatroom.id
+    const list = document.querySelector('div.chatroom-list')
+    const chatItem = document.createElement('div')
+    chatItem.className = 'chatroom-item'
+
+    const chatroomNumber = document.createElement('h3')
+    chatroomNumber.innerText = chatroom.id
+
     let button = document.createElement('button')
     button.className='join-chatroom-button'
     button.dataset.chatroomId = chatroom.id
     button.innerText = 'Join'
-    chatItem.append(button)
+
+    chatItem.append(chatroomNumber, button)
+
     list.append(chatItem)
     button.addEventListener('click', getChatroomInfo)
 
@@ -29,11 +34,12 @@ function getChatroomInfo(e) {
     .then( chatroomInstance => {
         renderChatroom(chatroomInstance)
     })
-    createConnection(id, e)
+    createConnection(id)
 }
 
 function renderChatroom(chatroom) {
     const messageWindow = document.querySelector('section.messaging-window')
+    messageWindow.innerHTML = ''
 
     let h1 = document.createElement('h1')
     h1.dataset.chatroomId = chatroom.id;
@@ -79,7 +85,7 @@ function renderMessage(message){
     let messageBody = document.createElement('div')
     let messageBtn = document.createElement('button')
 
-    messageRow.dataset.messageID = message.id
+    messageRow.dataset.messageId = message.id
 
     messageBody.textContent = message.message_text
     messageBtn.innerText = "Decrypt"
@@ -110,21 +116,20 @@ function handleMessageSubmit(e) {
             'Accept': 'application/json',
             'Authorization': localStorage.getItem('token')
         },
-        body: JSON.stringify({ message: {
+        body: JSON.stringify({'message': { 
             message_text: e.target.message.value,
-            chatroom_id: e.target.parentElement.previousSibling.dataset.chatroomId
-            // encryption_id: 1
+            chatroom_id: e.target.parentElement.parentElement.firstChild.dataset.chatroomId
         }})
-        // .then(res => res.json())
-        // .then(newMessage => renderMessage(newMessage))
     })
-    e.target.reset();
+    .then(res => res.json())
+    .then(newMessage => renderMessage(newMessage))
+    e.target.reset()
 }
 
-function createConnection(chatroom_id, e) {
+function createConnection(chatroom_id) {
     const socket = new WebSocket(webSocketUrl)
 
-    socket.onopen = function(e) {
+    socket.onopen = function() {
         console.log('WebSocket is connected.');
 
         const msg = {
@@ -138,7 +143,7 @@ function createConnection(chatroom_id, e) {
         socket.send(JSON.stringify(msg));
     };
 
-    socket.onclose = function(e) {
+    socket.onclose = function() {
         console.log('WebSocket is closed.');
     }
 
