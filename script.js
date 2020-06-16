@@ -27,8 +27,6 @@ function userActions(){
 
 function handleUAClick(e) {
     
-    console.log('user click')
-    e.stopPropagation();
     let dropDown = e.target.nextElementSibling
     if (dropDown.style.display === 'initial') {
         dropDown.style.display = 'none'
@@ -79,7 +77,7 @@ function renderLoginForm(dropDown) {
     //create nodes
 
     let loginForm = document.createElement('form')
-    loginForm.class = 'ua-form'
+    loginForm.className = 'ua-form'
 
     let uname = document.createElement('label')
     let uninput = document.createElement('input')
@@ -147,7 +145,7 @@ function renderRegisterForm(dropDown) {
     //create nodes
 
     let regForm = document.createElement('form')
-    regForm.class = 'ua-form'
+    regForm.className = 'ua-form'
 
     let uname = document.createElement('label')
     let uninput = document.createElement('input')
