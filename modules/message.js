@@ -192,13 +192,9 @@ function encryptMessage(e) {
             type: encryption_type.value,
             key: generateEngimaKeyString()
         } 
-        
+        getEncryption(messageObject);
     }
     
-}
-
-function generateEngimaKeyString(){
-    return "you wish!"
 }
 
 function getEncryption(message_obj){
