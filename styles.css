@@ -154,6 +154,8 @@ section.encryption-menu {
     height: 39vh;
     border: solid 1px rgb(80, 80, 80);
     border-radius: 5px;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
 section.messaging-window {
@@ -192,4 +194,53 @@ div.logged-out-div img {
     height: 15rem;
     width: 15rem;
    
+}
+
+div.key-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+div.rotor-container {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 50vw;
+    margin-top: 2rem;
+    height: 5rem;
+    box-shadow: -3px -3px 5px 2px rgba(30, 30, 30, .4), 
+                3px 3px 5px 2px rgba(80, 80, 80, .2) ;
+
+}
+
+div.rotor {
+    height: 4rem;
+    width: 4rem;
+    background-color: whitesmoke;
+    overflow-y: scroll;
+
+
+
+}
+
+div.card {
+    font-size: 2rem;
+    margin: auto;
+    text-align: center;
+    line-height: 3rem;
+
+    
+    border-bottom: 1px solid lightgray;
+}
+
+div.card:first-child {
+    margin-top: .5rem;
+}
+
+div.card:last-child {
+    margin-bottom: .5rem;
 }

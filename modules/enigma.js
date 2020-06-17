@@ -1,11 +1,3 @@
-
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    loadWheels()
-
-})
-
 function loadWheels(){
 
     const wheelsArr = document.querySelectorAll('div.rotor')
@@ -44,7 +36,7 @@ function addnumbers(wheel) {
 
          // manipulate
 
-         wheel.appendChild(card);
+        wheel.appendChild(card);
         // console.log(number)
         wheel.addEventListener('scroll', handleScroll)
     })

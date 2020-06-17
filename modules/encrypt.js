@@ -68,7 +68,8 @@ function renderCaesar() {
     const keyContainer = document.createElement('div');
     keyContainer.className = 'key-container'
     encWindow.appendChild(keyContainer)
-
+    keyContainer.style.width = '100%';
+    
     
     const dropCaesar = document.createElement('select')
     const dropCaeLabel = document.createElement('label')
@@ -87,6 +88,7 @@ function renderCaesar() {
 
     dropCaeLabel.htmlFor = 'key-type' ;
     dropCaeLabel.textContent = 'Choose a key:';
+   
 
     dropCaesar.name = 'key';
     dropCaesar.id = 'key-type';
@@ -100,7 +102,30 @@ function renderEnigma() {
     // clearKeyContainer()
     const encWindow = document.querySelector('section.encryption-menu');
     const keyContainer = document.createElement('div');
+
+    const rotorContainer = document.createElement('div')
+    rotorContainer.className = 'rotor-container'
+
+    const rotor1 = document.createElement('div')
+    rotor1.className = 'rotor'
+    rotor1.dataset.rotor = '1'
+
+    const rotor2 = document.createElement('div')
+    rotor2.className = 'rotor'
+    rotor2.dataset.rotor = '2'
+
+    const rotor3 = document.createElement('div')
+    rotor3.className = 'rotor'
+    rotor3.dataset.rotor = '3'
+
+    rotorContainer.append(rotor1, rotor2, rotor3)
+
+    keyContainer.appendChild(rotorContainer)
+
     keyContainer.className = 'key-container'
     encWindow.appendChild(keyContainer)
 
+    loadWheels()
 }
+
+

@@ -109,7 +109,57 @@ function renderMessage(message){
 
 
 function decryptMessage(e) {
-    alert(ceaserCipherDecode(e.target.previousElementSibling.innerText))
+    let textField = e.target.previousElementSibling.innerText
+    const encryption_type = document.querySelector('select#encrypt-type')
+    
+    if (encryption_type.value === '1') {
+        // make the message object { }
+        let messageObject = {
+            message: textField,
+            type: encryption_type.value,
+            key: "None"
+        } 
+        // call getEncryption(message)
+        getDecryption(messageObject);
+    } else if (encryption_type.value === '2') {
+        const encryption_key = document.querySelector('select#key-type')
+        let messageObject = {
+            message: textField,
+            type: encryption_type.value,
+            key: encryption_key.value
+        } 
+        getDecryption(messageObject);
+    } else {
+        // const encryption_key = document.querySelector('select#key-type')
+        let messageObject = {
+            message: textField.value,
+            type: encryption_type.value,
+            key: generateEngimaKeyString()
+        } 
+        
+    }
+    
+    
+}
+
+function getDecryption(message_obj){
+    console.log(message_obj)
+    
+    // debugger
+    // {message: "string", type: "string_of_a_number", key: "whatever"}
+    fetch(`${url}/encryptions/decrypt`, {
+        method: 'POST',
+        headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": localStorage.getItem('token')
+        },
+        body: JSON.stringify(message_obj)
+    })
+    .then(res => res.json())
+    .then( data => {
+        alert(data.message)
+    })
 }
 
 function encryptMessage(e) {
@@ -190,8 +240,7 @@ function handleMessageSubmit(e) {
         },
         body: JSON.stringify(obj)
     })
-    // .then(res => res.json())
-    // .then(newMessage => renderMessage(newMessage))
+    
     e.target.reset()
 }
 
@@ -227,25 +276,7 @@ function createConnection(chatroom_id) {
 
         console.log(e)
         console.log("FROM RAILS: ", msg)
-        // debugger
-
-        // if (msg.type === 'confirm_subscription' ) {
-        //     console.log('confirmed');
-
-        //     const msg = {
-        //         command: 'message',
-        //         identifier: JSON.stringify({
-        //             id: chatroom_id,
-        //             channel: "ChatroomChannel"
-        //         }),
-        //         data: JSON.stringify({
-        //             action: 'chat',
-        //             test: "testing"
-        //         })
-        //     };
-
-        //     socket.send(JSON.stringify(msg));
-        // }
+        
 
         if (msg.message) {
             let messageContainer = document.querySelector('div.message-container')
