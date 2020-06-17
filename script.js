@@ -285,13 +285,17 @@ function renderUser(user) {
 // render Encryption features
 
 function loadEncryption() {
-    fetch(`${url}/encryptions`)
-    .then( res => res.json())
-    .then( data => {
-        console.log(data)
-        renderEncryptOptions(data)
-        // GET /encryptions should response with Array of Encryption Types
-    } )
+
+    renderTypes()
+
+
+    // fetch(`${url}/encryptions`)
+    // .then( res => res.json())
+    // .then( data => {
+    //     console.log(data)
+    //     renderEncryptOptions(data)
+    //     // GET /encryptions should response with Array of Encryption Types
+    // } )
 
 }
 

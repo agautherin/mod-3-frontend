@@ -55,23 +55,29 @@ function renderChatroom(chatroom) {
         
     })
 
-    let messageFormWrapper = document.createElement('div')
-    let form = document.createElement('form')
+    let messageFormWrapper = document.createElement('div');
+    let form = document.createElement('form');
 
-    let input1 = document.createElement('input')
-    input1.name = 'message'
-    input1.placeholder = 'Type your message'
+    let input1 = document.createElement('input');
+    input1.name = 'message';
+    input1.id = 'reg-msg';
+    input1.placeholder = 'Type your message';
 
-    let encrypt = document.createElement('button')
-    encrypt.innerText = 'Encrypt the message'
+    let encrypt = document.createElement('button');
+    encrypt.innerText = 'Encrypt the message';
 
-    let input2 = document.createElement('input')
-    input2.name = 'encrypted-message'
-    input2.placeholder = 'Your encrypted message'
+    let input2 = document.createElement('input');
+    input2.name = 'encryptedMessage';
+    input2.id = 'encrypt-msg';
+    input2.placeholder = 'Your encrypted message';
 
-    let submit = document.createElement('button')
-    submit.type = 'submit'
+    let submit = document.createElement('button');
+    submit.type = 'submit';
     submit.innerText = 'Submit'
+
+
+
+
 
     form.append(input1, encrypt, input2, submit)
     messageFormWrapper.append(form)
@@ -106,15 +112,73 @@ function decryptMessage(e) {
     alert(ceaserCipherDecode(e.target.previousElementSibling.innerText))
 }
 
-function encryptMessage() {
+function encryptMessage(e) {
     console.log('encrypted!')
+    const encryption_type = document.querySelector('select#encrypt-type')
+    const textField = document.querySelector('input#reg-msg')
+    
+    // need the unencrypted text from the first input field
+    if (encryption_type.value === '1') {
+        // make the message object { }
+        let messageObject = {
+            message: textField.value,
+            type: encryption_type.value,
+            key: "None"
+        } 
+        // call getEncryption(message)
+        getEncryption(messageObject);
+    } else if (encryption_type.value === '2') {
+        const encryption_key = document.querySelector('select#key-type')
+        let messageObject = {
+            message: textField.value,
+            type: encryption_type.value,
+            key: encryption_key.value
+        } 
+        getEncryption(messageObject);
+    } else {
+        // const encryption_key = document.querySelector('select#key-type')
+        let messageObject = {
+            message: textField.value,
+            type: encryption_type.value,
+            key: generateEngimaKeyString()
+        } 
+        
+    }
+    
+}
+
+function generateEngimaKeyString(){
+    return "you wish!"
+}
+
+function getEncryption(message_obj){
+    console.log(message_obj)
+    // debugger
+    // {message: "string", type: "string_of_a_number", key: "whatever"}
+    fetch(`${url}/encryptions`, {
+        method: 'POST',
+        headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": localStorage.getItem('token')
+        },
+        body: JSON.stringify(message_obj)
+    })
+    .then(res => res.json())
+    .then( encryption_obj => {
+        let encrypt_input = document.querySelector('input#encrypt-msg')
+        encrypt_input.value = encryption_obj.message
+        //
+        //    encry_message_obj =  {encrypt_obj: {}, message: "encoded string", user_obj: int}
+        //  populate the second input field
+    })
 }
 
 function handleMessageSubmit(e) {
     // debugger
     e.preventDefault()
     let obj = { 'message': {
-        message_text: ceaserCipherEncode(e.target.message.value),
+        message_text: e.target.encryptedMessage.value,
         chatroom_id: e.target.parentElement.parentElement.firstChild.dataset.chatroomId
     }}
     fetch(`${url}/messages`, {
