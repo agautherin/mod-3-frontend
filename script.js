@@ -4,37 +4,74 @@ const url = `http://localhost:${PORT}`
 // import variable from './modules/message.js'
 
 document.addEventListener("DOMContentLoaded", function() {
-    
-    // navbar rendering
-    userActions()
+    // create function (fetch) to check if token is valid
 
-    // content rendering
-    // loadFriends()
-    // loadUsers()
-    // loadEncryption()
-    // loadMessageBoard()
-     
-    
+    checkLogStatus()
+    .then(userActions())
+    //if token valid
+    // render login function
+    //else token is not valid or undefined or nonexistent  
 
 })
 
-function userActions(){
+function checkLogStatus() {
+    return fetch(`${url}/users/check`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": localStorage.getItem('token')
+        }
+    })
+    .then(res => {
+        if (res.ok) {
+            return res.json()
+        }
+        else {
+        //    console.log( "bad")
+            return "bad"
+           // render logged out UI
+        }
+        })
+    .then(data => {
+        if (data === 'bad') {
+                
+                //handle later
+                localStorage.setItem('enig_logged', "")
+                loggedOutUI()
+            } else {
+                
+                localStorage.setItem('enig_logged', true)
+                loggedInUI()
+                loadData()
+            }
+            //render logged in UI
+        })
+}
 
+
+function userActions(){
+    
     const userDiv = document.querySelector(`div.user-details`)
 
     userDiv.addEventListener("click", handleUAClick)
 }
 
 function handleUAClick(e) {
-    
+    console.log(localStorage.getItem('enig_logged'))
     let dropDown = e.target.nextElementSibling
     if (dropDown.style.display === 'initial') {
         dropDown.style.display = 'none'
         dropDown.innerHTML = ''
 
     } else {
-        dropDown.style.display = 'initial'
-        renderDropDown(dropDown)
+        if (localStorage.getItem('enig_logged')) { 
+            dropDown.style.display = 'initial'
+            renderDropDownLogout(dropDown)
+        } else {
+            dropDown.style.display = 'initial'
+            renderDropDown(dropDown)
+        }
     }
 }
 
@@ -132,13 +169,16 @@ function handleLoginSubmit(e) {
     .then(res => res.json())
     .then(data => {
         localStorage.setItem('token', data.token )
-        loadFriends()
-        loadUsers()
-        loadEncryption()
-        loadChatrooms()
-        newChatroom()
+        localStorage.setItem('enig_logged', true )
+        loggedInUI()
+        loadData()
+        userActions()
     })
-   
+
+    const userDiv = document.querySelector(`div.user-details`)
+    let dropDown = userDiv.nextElementSibling
+    dropDown.style.display = 'none'
+    dropDown.innerHTML = ''
 }
 
 function renderRegisterForm(dropDown) { 
@@ -227,8 +267,19 @@ function handleRegisterSubmit(e){
         }})
     })
     .then(res => res.json())
-    .then(console.log)
+    .then( data => {
+        localStorage.setItem('token', data.token )
+        localStorage.setItem('enig_logged', true )
+        loggedInUI()
+        loadData()
+        userActions()
+    })
     e.target.reset();
+
+    const userDiv = document.querySelector(`div.user-details`)
+    let dropDown = userDiv.nextElementSibling
+    dropDown.style.display = 'none'
+    dropDown.innerHTML = ''
 }
 
 function loadFriends() {
@@ -288,15 +339,6 @@ function loadEncryption() {
 
     renderTypes()
 
-
-    // fetch(`${url}/encryptions`)
-    // .then( res => res.json())
-    // .then( data => {
-    //     console.log(data)
-    //     renderEncryptOptions(data)
-    //     // GET /encryptions should response with Array of Encryption Types
-    // } )
-
 }
 
 // function loadMessageBoard() {
@@ -306,4 +348,12 @@ function loadEncryption() {
 
 function renderEncryptOptions(encryptArr) {
     console.log('connected encryption types')
+}
+
+function loadData() {
+    loadFriends()
+    loadUsers()
+    loadEncryption()
+    loadChatrooms()
+    newChatroom()
 }
