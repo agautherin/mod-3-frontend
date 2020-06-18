@@ -10,7 +10,7 @@ function renderTypes() {
     const dropEncOpt3 = document.createElement('option')
 
     dropEncLabel.htmlFor = 'encrypt-type' ;
-    dropEncLabel.textContent = 'Choose an Encryption Technique:';
+    dropEncLabel.textContent = 'Choose an Encryption Technique: ';
 
     dropEncTypes.name = 'encryption';
     dropEncTypes.id = 'encrypt-type';
@@ -20,10 +20,11 @@ function renderTypes() {
     dropEncOpt2.value = "2"
     dropEncOpt2.textContent = "Caesar"
     dropEncOpt3.value = "3"
-    dropEncOpt3.textContent = "Enigma"
+    dropEncOpt3.textContent = "Enigma (alpha testing)"
  
 
     dropEncTypes.append(dropEncOpt1, dropEncOpt2, dropEncOpt3)
+    
 
     encWindow.append(dropEncLabel, dropEncTypes)
 

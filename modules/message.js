@@ -96,6 +96,7 @@ function renderMessage(message){
     let messageBtn = document.createElement('button')
 
     messageRow.dataset.messageId = message.id
+    messageRow.className = 'message-row'
 
     messageBody.textContent = message.message_text
     messageBtn.innerText = "Decrypt"
@@ -185,7 +186,8 @@ function encryptMessage(e) {
             key: encryption_key.value
         } 
         getEncryption(messageObject);
-    } else {
+     }  
+     else {
         // const encryption_key = document.querySelector('select#key-type')
         let messageObject = {
             message: textField.value,

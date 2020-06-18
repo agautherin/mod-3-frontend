@@ -162,12 +162,23 @@ section.messaging-window {
     height: 39vh;
     border: solid 1px rgb(80, 80, 80);
     border-radius: 5px;
+    padding-left: 2rem;
 }
 
 div.message-container {
-    height: 30vh;
+    height: 50%;
     width: 100%;
     overflow-y: scroll;
+}
+
+div.message-row {
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 15rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
 }
 
 div.logged-out-div {
