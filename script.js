@@ -171,6 +171,7 @@ function handleLoginSubmit(e) {
         localStorage.setItem('token', data.token )
         localStorage.setItem('enig_logged', true )
         loggedInUI()
+        loggedInNav()
         loadData()
         userActions()
     })
@@ -298,6 +299,7 @@ function loadChatrooms(){
     .then(res => res.json() )
     .then( chatroomList => {
         chatroomList.forEach((chatroom) => {
+            console.log(chatroom)
             renderChatroomOnList(chatroom)
         })
     })

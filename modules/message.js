@@ -32,6 +32,7 @@ function getChatroomInfo(e) {
     })
     .then(res => res.json())
     .then( chatroomInstance => {
+        console.log(chatroomInstance);
         renderChatroom(chatroomInstance)
     })
     createConnection(id)
@@ -75,10 +76,6 @@ function renderChatroom(chatroom) {
     submit.type = 'submit';
     submit.innerText = 'Submit'
 
-
-
-
-
     form.append(input1, encrypt, input2, submit)
     messageFormWrapper.append(form)
     messageWindow.append(messageFormWrapper)
@@ -86,7 +83,6 @@ function renderChatroom(chatroom) {
     encrypt.addEventListener("click", encryptMessage )
     form.addEventListener("submit", handleMessageSubmit )
 
-    
 }
 
 function renderMessage(message){
@@ -100,20 +96,23 @@ function renderMessage(message){
 
     messageBody.textContent = message.message_text
     messageBtn.innerText = "Decrypt"
+    messageBtn.addEventListener("click", decryptMessage )
 
     messageRow.append(messageBody, messageBtn)
     
-    messageBtn.addEventListener("click", decryptMessage)
 
     return messageRow;
 }
 
 
 function decryptMessage(e) {
+    
     let textField = e.target.previousElementSibling.innerText
+    // console.log(e);
     const encryption_type = document.querySelector('select#encrypt-type')
     
     if (encryption_type.value === '1') {
+        
         // make the message object { }
         let messageObject = {
             message: textField,
@@ -131,22 +130,20 @@ function decryptMessage(e) {
         } 
         getDecryption(messageObject);
     } else {
-        // const encryption_key = document.querySelector('select#key-type')
+        
         let messageObject = {
-            message: textField.value,
+            message: textField,
             type: encryption_type.value,
             key: generateEngimaKeyString()
         } 
-        
+        getDecryption(messageObject);
     }
     
     
 }
 
 function getDecryption(message_obj){
-    console.log(message_obj)
     
-    // debugger
     // {message: "string", type: "string_of_a_number", key: "whatever"}
     fetch(`${url}/encryptions/decrypt`, {
         method: 'POST',
@@ -200,8 +197,7 @@ function encryptMessage(e) {
 }
 
 function getEncryption(message_obj){
-    console.log(message_obj)
-    // debugger
+        
     // {message: "string", type: "string_of_a_number", key: "whatever"}
     fetch(`${url}/encryptions`, {
         method: 'POST',
@@ -216,14 +212,12 @@ function getEncryption(message_obj){
     .then( encryption_obj => {
         let encrypt_input = document.querySelector('input#encrypt-msg')
         encrypt_input.value = encryption_obj.message
-        //
-        //    encry_message_obj =  {encrypt_obj: {}, message: "encoded string", user_obj: int}
-        //  populate the second input field
+      
     })
 }
 
 function handleMessageSubmit(e) {
-    // debugger
+  
     e.preventDefault()
     let obj = { 'message': {
         message_text: e.target.encryptedMessage.value,
@@ -291,14 +285,16 @@ function createConnection(chatroom_id) {
 function newChatroom() {
     const newChatroomForm = document.querySelector('form.add-chat-form')
     newChatroomForm.addEventListener('submit', (e) => {
-        e.preventDefault()
+        // debugger;
+        e.preventDefault();
         fetch(`${url}/chatrooms`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': localStorage.getItem('token')
-            }
+            },
+            body: JSON.stringify(e.target)
         })
         .then(resp => resp.json())
         .then(newChatroom => renderChatroomOnList(newChatroom))

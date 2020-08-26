@@ -20,7 +20,7 @@ function renderTypes() {
     dropEncOpt2.value = "2"
     dropEncOpt2.textContent = "Caesar"
     dropEncOpt3.value = "3"
-    dropEncOpt3.textContent = "Enigma (alpha testing)"
+    dropEncOpt3.textContent = "Enigma"
  
 
     dropEncTypes.append(dropEncOpt1, dropEncOpt2, dropEncOpt3)
@@ -33,7 +33,6 @@ function renderTypes() {
 }
 
 function handleEncryptChange(e) {
-    console.log(e);
     clearKeyContainer()
     if (e.target.value === '2') {
         console.log("Et tu, Brute")
@@ -128,5 +127,6 @@ function renderEnigma() {
 
     loadWheels()
 }
+
 
 

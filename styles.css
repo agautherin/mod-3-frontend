@@ -122,6 +122,13 @@ div.left-pane {
     overflow-y: scroll;
 }
 
+section.menu-window{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
 div.chatroom-list {
     list-style: none;
 }
